@@ -54,7 +54,7 @@ jobs:
               }
             ]
           }' \
-          ${{ secrets.Monitoring Pipeline }}
+          ${{ secrets.MONITORING_PIPELINE }}
 
       - name: Discord failure
         if: failure()
@@ -79,4 +79,4 @@ jobs:
               }
             ]
           }' \
-          ${{ secrets.Monitoring Pipeline }}
+          ${{ secrets.MONITORING_PIPELINE }}
