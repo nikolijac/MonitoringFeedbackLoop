@@ -1,4 +1,4 @@
-name: Deploy Pipeline
+name: Monitoring Pipeline
 
 on:
   push:
@@ -10,8 +10,73 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run deploy simulation
-        run: echo "Deploying application successfully!"
+      - name: Deploy simulation
+        run: |
+          echo "Deploying app..."
+          echo "OK"
+
+      - name: Commit info
+        run: |
+          echo "Commit: $GITHUB_SHA"
+          echo "Author: $GITHUB_ACTOR"
+          echo "Time: $(date)"
+      
+      - name: System metrics
+        run: |
+          echo "Disk usage:"
+          df -h
+          echo "Memory:"
+          free -m
+
+      - name: Discord success
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{
+            "embeds": [
+              {
+                "title": "🟢 Deployment SUCCESS",
+                "color": 3066993,
+                "fields": [
+                  {
+                    "name": "Commit",
+                    "value": "'"$GITHUB_SHA"'"
+                  },
+                  {
+                    "name": "Author",
+                    "value": "'"$GITHUB_ACTOR"'"
+                  }
+                ]
+              }
+            ]
+          }' \
+          ${{ secrets.DISCORD_WEBHOOK }}
+
+      - name: Discord failure
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{
+            "embeds": [
+              {
+                "title": "🔴 Deployment FAILED",
+                "color": 15158332,
+                "fields": [
+                  {
+                    "name": "Commit",
+                    "value": "'"$GITHUB_SHA"'"
+                  },
+                  {
+                    "name": "Fix needed",
+                    "value": "Check GitHub Actions logs"
+                  }
+                ]
+              }
+            ]
+          }' \
+          ${{ secrets.DISCORD_WEBHOOK }}
