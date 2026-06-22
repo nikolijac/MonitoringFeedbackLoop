@@ -31,9 +31,6 @@ jobs:
           echo "Memory:"
           free -m
 
-      - name: Force failure test
-          run: exit 1
-
       - name: Discord success
         if: success()
         run: |
@@ -83,3 +80,6 @@ jobs:
             ]
           }' \
           ${{ secrets.MONITORING_PIPELINE }}
+
+      - name: Force failure test
+          run: exit 1
