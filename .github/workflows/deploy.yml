@@ -54,7 +54,7 @@ jobs:
               }
             ]
           }' \
-          ${{ secrets.DISCORD_WEBHOOK }}
+          ${{ secrets.Monitoring Pipeline }}
 
       - name: Discord failure
         if: failure()
@@ -79,4 +79,4 @@ jobs:
               }
             ]
           }' \
-          ${{ secrets.DISCORD_WEBHOOK }}
+          ${{ secrets.Monitoring Pipeline }}
