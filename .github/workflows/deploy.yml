@@ -82,4 +82,4 @@ jobs:
           ${{ secrets.MONITORING_PIPELINE }}
 
       - name: Force failure test
-          run: exit 1
+        run: exit 1
