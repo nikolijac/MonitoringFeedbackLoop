@@ -31,6 +31,9 @@ jobs:
           echo "Memory:"
           free -m
 
+      - name: Force failure test
+          run: exit 1
+
       - name: Discord success
         if: success()
         run: |
